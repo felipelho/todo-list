@@ -1,17 +1,9 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import {
-  Plus,
-  List,
-  Check,
-  X,
-  Trash2,
-  SquarePen,
-  ListCheck,
-  Sigma,
-} from 'lucide-react';
+import { Plus, List, Check, X, Trash2, ListCheck, Sigma } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
   AlertDialog,
@@ -24,8 +16,14 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import EditTask from '@/components/edit-task';
+import { getTasks } from '@/actions/get-task-from-db';
 
 const Home = () => {
+  const handleGetTasks = async () => {
+    const tasks = await getTasks();
+    console.log('Tarefas do banco de dados:', tasks);
+  };
+
   return (
     <main className="w-full h-screen bg-gray-100 flex justify-center items-center">
       <Card className="w-lg shadow-lg rounded-2xl">
@@ -36,6 +34,7 @@ const Home = () => {
             Button
           </Button>
         </CardHeader>
+        <Button onClick={handleGetTasks}>Buscar Tarefas</Button>
         <CardContent>
           <Separator className="mb-3" />
           <div className="flex gap-2">
