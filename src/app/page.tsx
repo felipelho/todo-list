@@ -1,5 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -17,24 +18,73 @@ import {
 } from '@/components/ui/alert-dialog';
 import EditTask from '@/components/edit-task';
 import { getTasks } from '@/actions/get-task-from-db';
+import { useEffect, useState } from 'react';
+import { Task } from '@/generated/prisma';
+import { NewTask } from '@/actions/add-task';
+import { deleteTask } from '@/actions/delete-task';
 
 const Home = () => {
+  const [taskList, setTaskList] = useState<Task[]>([]);
+  const [task, setTask] = useState<string>('');
+
   const handleGetTasks = async () => {
-    const tasks = await getTasks();
-    console.log('Tarefas do banco de dados:', tasks);
+    try {
+      const tasks = await getTasks();
+      if (!tasks) return;
+      setTaskList(tasks || []);
+    } catch (error) {
+      throw error;
+    }
   };
+
+  const handleAddTask = async () => {
+    try {
+      if (task.length === 0 || !task) return;
+
+      const addNewTask = await NewTask(task);
+      if (!addNewTask) return;
+      setTask('');
+      toast.success('Tarefa adicionada com sucesso');
+      await handleGetTasks();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleDeleteTask = async (id: string) => {
+    try {
+      if (!id) return;
+      const deletedTask = await deleteTask(id);
+      if (!deletedTask) return;
+      toast.warning('Tarefa deletada com sucesso');
+      await handleGetTasks();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    handleGetTasks();
+  }, []);
 
   return (
     <main className="w-full h-screen bg-gray-100 flex justify-center items-center">
       <Card className="w-lg shadow-lg rounded-2xl">
         <CardHeader className="flex gap-2">
-          <Input placeholder="Adicionar Tarefa" />
-          <Button className="cursor-pointer" variant="default">
+          <Input
+            placeholder="Adicionar Tarefa"
+            onChange={(e) => setTask(e.target.value)}
+            value={task}
+          />
+          <Button
+            className="cursor-pointer"
+            variant="default"
+            onClick={handleAddTask}
+          >
             <Plus />
-            Button
+            Cadastrar
           </Button>
         </CardHeader>
-        <Button onClick={handleGetTasks}>Buscar Tarefas</Button>
         <CardContent>
           <Separator className="mb-3" />
           <div className="flex gap-2">
@@ -53,16 +103,29 @@ const Home = () => {
           </div>
           {/* Tarefas */}
           <div className="mt-4 border-b-1">
-            <div className="h-14 flex justify-between items-center">
-              <div className="w-1 h-full bg-amber-300"></div>
-              <p className="flex-1 px-2 text-sm">Estudar React</p>
-              <div className="flex items-center gap-2">
-                <EditTask />
-                <Trash2 size={19} className="cursor-pointer" />
-              </div>
-            </div>
-          </div>
+            {taskList.map((task) => (
+              <div
+                className="h-14 flex justify-between items-center"
+                key={task.id}
+              >
+                <div className="w-1 h-full bg-amber-300"></div>
+                <p className="flex-1 px-2 text-sm cursor-pointer hover:text-gray-500">
+                  {task.task}
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="cursor-pointer hover:text-blue-500">
+                    <EditTask />
+                  </div>
 
+                  <Trash2
+                    size={19}
+                    className="cursor-pointer hover:text-red-500"
+                    onClick={() => handleDeleteTask(task.id)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
           <div className="flex justify-between items-center mt-4">
             <div className="flex gap-2 items-center">
               <ListCheck size={19} />
