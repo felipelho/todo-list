@@ -14,13 +14,6 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -30,6 +23,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import EditTask from '@/components/edit-task';
 
 const Home = () => {
   return (
@@ -42,7 +36,6 @@ const Home = () => {
             Button
           </Button>
         </CardHeader>
-
         <CardContent>
           <Separator className="mb-3" />
           <div className="flex gap-2">
@@ -65,20 +58,7 @@ const Home = () => {
               <div className="w-1 h-full bg-amber-300"></div>
               <p className="flex-1 px-2 text-sm">Estudar React</p>
               <div className="flex items-center gap-2">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <SquarePen size={19} className="cursor-pointer" />
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader className="flex items-start">
-                      <DialogTitle>Editar Tarefa</DialogTitle>
-                    </DialogHeader>
-                    <div className="flex justify-between gap-2">
-                      <Input placeholder="Editar tarefa"></Input>
-                      <Button className="cursor-pointer">Editar</Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <EditTask />
                 <Trash2 size={19} className="cursor-pointer" />
               </div>
             </div>
@@ -89,6 +69,7 @@ const Home = () => {
               <ListCheck size={19} />
               <p className="text-sm">Tarefas concluidas (3/3)</p>
             </div>
+
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
@@ -99,9 +80,6 @@ const Home = () => {
                   Limpar tarefas concluidas
                 </Button>
               </AlertDialogTrigger>
-               
-              
-
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>
