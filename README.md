@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lista de Tarefas
 
-## Getting Started
+Um simples, porém robusto, aplicativo de lista de tarefas (To-Do List) construído com as tecnologias mais modernas do ecossistema JavaScript.
 
-First, run the development server:
+## ✨ Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Adicionar Tarefas:** Crie novas tarefas de forma rápida e intuitiva.
+- **Excluir Tarefas:** Remova tarefas que já foram concluídas ou não são mais necessárias.
+- **Editar Tarefas:** Modifique o conteúdo de tarefas existentes diretamente na interface.
+- **Interface Moderna:** UI limpa e agradável construída com [shadcn/ui](https://ui.shadcn.com/) e [Tailwind CSS](https://tailwindcss.com/).
+- **Notificações:** Feedback visual instantâneo para as ações do usuário através de notificações (Toasts).
+- **Persistência de Dados:** As tarefas são salvas em um banco de dados, gerenciado pelo [Prisma ORM](https://www.prisma.io/).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Tecnologias Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework:** [Next.js](https://nextjs.org/)
+- **Linguagem:** [TypeScript](https://www.typescriptlang.org/)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **Componentes UI:** [shadcn/ui](https://ui.shadcn.com/)
+- **Estilização:** [Tailwind CSS](https://tailwindcss.com/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ⚙️ Como Executar o Projeto
 
-## Learn More
+Siga os passos abaixo para configurar e executar o projeto em seu ambiente local.
 
-To learn more about Next.js, take a look at the following resources:
+### Pré-requisitos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Node.js](https://nodejs.org/en/) (versão 18 ou superior)
+- [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
+- Um banco de dados compatível com o Prisma (ex: PostgreSQL, MySQL, SQLite).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Passos
 
-## Deploy on Vercel
+1.  **Clone o repositório:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    git clone https://github.com/felipelho/todo-list.git
+    cd todo-list
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2.  **Instale as dependências:**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Configure as variáveis de ambiente:**
+    Crie um arquivo `.env` na raiz do projeto e adicione a variável `DATABASE_URL` com a string de conexão do seu banco de dados.
+
+    ```env
+    # Exemplo para PostgreSQL
+    DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+    ```
+
+4.  **Execute as migrações do banco de dados:**
+    Este comando irá criar as tabelas necessárias no seu banco de dados com base no schema do Prisma.
+
+    ```bash
+    npx prisma migrate dev
+    ```
+
+5.  **Inicie o servidor de desenvolvimento:**
+
+    ```bash
+    npm run dev
+    ```
+
+6.  **Acesse a aplicação:**
+    Abra seu navegador e acesse `http://localhost:3000`.

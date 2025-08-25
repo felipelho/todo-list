@@ -63,6 +63,35 @@ const Home = () => {
     }
   };
 
+  const handleToggleTask = async (taskId: string) => {
+    console.log(taskList);
+    
+    const previusTasks = [...taskList];
+    console.log(previusTasks);
+
+    setTaskList((prev) => {
+      const updatedTaskList = prev.map(task => {
+        if(task.id === taskId) {
+          return {
+            ...task,
+            done: !task.done
+          }
+        } else {
+          return task;
+        }
+      })
+      return updatedTaskList;
+    })
+
+    // try {
+    //   if (!id) return;
+      
+    // }catch (error) {
+    //     throw error;
+    //   }
+  };
+
+
   useEffect(() => {
     handleGetTasks();
   }, []);
@@ -104,12 +133,11 @@ const Home = () => {
           {/* Tarefas */}
           <div className="mt-4 border-b-1">
             {taskList.map((task) => (
-              <div
-                className="h-14 flex justify-between items-center"
-                key={task.id}
-              >
-                <div className="w-1 h-full bg-amber-300"></div>
-                <p className="flex-1 px-2 text-sm cursor-pointer hover:text-gray-500">
+              <div className="h-14 flex justify-between items-center" key={task.id}>
+                <div
+                  className={`${task.done ? 'w-1 h-full bg-green-300' : 'w-1 h-full bg-red-400'}`}
+                ></div>
+                <p className="flex-1 px-2 text-sm cursor-pointer hover:text-gray-500" onClick={() => handleToggleTask(task.id)}>
                   {task.task}
                 </p>
                 <div className="flex items-center gap-2">
@@ -136,7 +164,7 @@ const Home = () => {
               <AlertDialogTrigger asChild>
                 <Button
                   variant={'outline'}
-                  className="text-xs h-8 cursor-pointer"
+                  className="text-xs h-8 cursor-pointer hover:text-red-500"
                 >
                   <Trash2 />
                   Limpar tarefas concluidas
